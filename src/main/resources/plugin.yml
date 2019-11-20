@@ -1,0 +1,22 @@
+name: AlchemicStuff
+main: me.alchemi.alchemicstuff.Stuff
+version: ${project.version}
+author: Alchemi
+description: Adds more stuff used for OP Factions.
+depend:
+- AlchemicLibrary
+- Vault
+
+commands:
+   giveenchant:
+      description: Gives you an enchant.
+      permission: alchemicstuff.give
+      aliases:
+      - ge
+      - enchantbook
+      - givee
+
+permissions:
+   alchemicstuff.give:
+      description: Permission to get an enchant.
+      default: op
