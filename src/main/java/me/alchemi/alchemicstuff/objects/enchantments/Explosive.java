@@ -35,7 +35,8 @@ public class Explosive extends EnchantmentBase {
 		if (e.getEntity() instanceof LivingEntity
 				&& !e.getEntity().getUniqueId().toString().equals(e.getDamager().getCustomName())
 				&& ((LivingEntity)e.getEntity()).getEquipment().getChestplate() != null
-				&& hasEnchantment(((LivingEntity)e.getEntity()).getEquipment().getChestplate())) {
+				&& hasEnchantment(((LivingEntity)e.getEntity()).getEquipment().getChestplate())
+				&& allowChance()) {
 			
 			TNTPrimed tnt = e.getEntity().getLocation().getWorld().spawn(
 					((LivingEntity)e.getEntity()).getLocation().add(0, 0.5, 0), TNTPrimed.class);
