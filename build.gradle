@@ -30,6 +30,8 @@ repositories {
 
 dependencies {
     implementation 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
+    implementation 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT:javadoc'
+    implementation 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT:sources'
     implementation 'net.milkbowl.vault:VaultAPI:1.7'
     implementation project(':AlchemicLibrary')
     implementation project(':AlchemicLibrary-api')
@@ -37,7 +39,7 @@ dependencies {
 }
 
 group = 'me.alchemi'
-version = '1.0.0'
+version = '1.1.0'
 description = 'AlchemicStuff'
 sourceCompatibility = '1.8'
 

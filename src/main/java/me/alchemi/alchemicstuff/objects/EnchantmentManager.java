@@ -8,6 +8,8 @@ import java.util.Map;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.alchemi.alchemicstuff.Stuff;
+import me.alchemi.alchemicstuff.objects.enchantments.Bewitched;
+import me.alchemi.alchemicstuff.objects.enchantments.Bonus_Player_Damage;
 import me.alchemi.alchemicstuff.objects.enchantments.Chopping;
 import me.alchemi.alchemicstuff.objects.enchantments.EnchantmentBase;
 import me.alchemi.alchemicstuff.objects.enchantments.Experience;
@@ -29,6 +31,8 @@ public class EnchantmentManager {
 	public static final EnchantmentBase EXPLOSIVE = new Explosive();
 	public static final EnchantmentBase EXPERIENCE = new Experience();
 	public static final EnchantmentBase CHOPPING = new Chopping();
+	public static final EnchantmentBase BONUS_PLAYER_DAMAGE = new Bonus_Player_Damage();
+	public static final EnchantmentBase BEWITCHED = new Bewitched();
 	
 	public EnchantmentManager() {
 		instance = this;
@@ -71,6 +75,10 @@ public class EnchantmentManager {
 		
 		Chopping.setDefaults(this);
 		
+		Bonus_Player_Damage.setDefaults(this);
+		
+		Bewitched.setDefaults(this);
+		save();
 		if (!file.exists()) {
 			save();
 		}
