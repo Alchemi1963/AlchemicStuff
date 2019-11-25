@@ -7,8 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.entity.AbstractArrow.PickupStatus;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Arrow.PickupStatus;
 import org.bukkit.entity.SpectralArrow;
 import org.bukkit.entity.TippedArrow;
 import org.bukkit.event.EventHandler;
@@ -27,11 +27,21 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 
 import me.alchemi.al.api.MaterialWrapper;
+import me.alchemi.alchemicstuff.objects.EnchantmentManager;
 
+@SuppressWarnings("deprecation")
 public class Shredder extends EnchantmentBase {
 
+	public static final String DEFAULT_DISPLAYNAME = "&7Shredding";
+	public static final boolean DEFAULT_SPECIAL = false;
+	
 	public Shredder() {
-		super("shredder");
+		super(Shredder.class);
+	}
+	
+	public static void setDefaults(EnchantmentManager manager) {
+		manager.setDisplayName(Shredder.class, DEFAULT_DISPLAYNAME);
+		manager.setSpecial(Shredder.class, DEFAULT_SPECIAL);
 	}
 
 	@Override
@@ -58,7 +68,7 @@ public class Shredder extends EnchantmentBase {
 		
 		if (e.getItem() == null) return;
 		
-		if (hasEnchanment(e.getItem())
+		if (hasEnchantment(e.getItem())
 				&& (e.getAction() == Action.RIGHT_CLICK_AIR
 					|| e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 			

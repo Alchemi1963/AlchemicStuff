@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.alchemi.alchemicstuff.Stuff;
 import me.alchemi.alchemicstuff.objects.enchantments.EnchantmentBase;
+import me.alchemi.alchemicstuff.objects.enchantments.Experience;
 import me.alchemi.alchemicstuff.objects.enchantments.Explosive;
 import me.alchemi.alchemicstuff.objects.enchantments.LifeSteal;
 import me.alchemi.alchemicstuff.objects.enchantments.Shredder;
@@ -25,6 +26,7 @@ public class EnchantmentManager {
 	public static final EnchantmentBase SHREDDER = new Shredder();
 	public static final EnchantmentBase LIFESTEAL = new LifeSteal();
 	public static final EnchantmentBase EXPLOSIVE = new Explosive();
+	public static final EnchantmentBase EXPERIENCE = new Experience();
 	
 	public EnchantmentManager() {
 		instance = this;
@@ -57,57 +59,62 @@ public class EnchantmentManager {
 	}
 	
 	public void load() {
-		setDisplayName("shredder" , "&7Shredding");
-		setSpecial("shredder", false);
+		Shredder.setDefaults(this);
 		
-		setDisplayName("lifesteal", "&7Life Steal");
-		setSpecial("lifesteal", false);
-		setChance("lifesteal", 10.0);
-		setAmount("lifesteal", 3);
+		LifeSteal.setDefaults(this);
 		
-		setDisplayName("explosive", "&4Explosive");
-		setSpecial("explosive", false);
-		setAmount("explosive", 5);
+		Explosive.setDefaults(this);
+		
+		Experience.setDefaults(this);
 		
 		if (!file.exists()) {
 			save();
 		}
 	}
 	
-	private void setDisplayName(String enchant, String displayName) { 
-		config.addDefault(String.join(".", enchant, "display-name"), displayName);
-		config.set(String.join(".", enchant, "display-name"), displayName);
+	public void setDisplayName(Class<? extends EnchantmentBase> enchant, String displayName) { 
+		config.addDefault(String.join(".", enchant.getSimpleName().toLowerCase(), "display-name"), displayName);
+		config.set(String.join(".", enchant.getSimpleName().toLowerCase(), "display-name"), displayName);
 	}
 	
-	private void setSpecial(String enchant, boolean special) {
-		config.addDefault(String.join(".", enchant, "special"), special);
-		config.set(String.join(".", enchant, "special"), special);
+	public void setSpecial(Class<? extends EnchantmentBase> enchant, boolean special) {
+		config.addDefault(String.join(".", enchant.getSimpleName().toLowerCase(), "special"), special);
+		config.set(String.join(".", enchant.getSimpleName().toLowerCase(), "special"), special);
 	}
 	
-	private void setChance(String enchant, double chance) {
-		config.addDefault(String.join(".", enchant, "chance"), chance);
-		config.set(String.join(".", enchant, "chance"), chance);
+	public void setChance(Class<? extends EnchantmentBase> enchant, double chance) {
+		config.addDefault(String.join(".", enchant.getSimpleName().toLowerCase(), "chance"), chance);
+		config.set(String.join(".", enchant.getSimpleName().toLowerCase(), "chance"), chance);
 	}
 	
-	private void setAmount(String enchant, int amount) {
-		config.addDefault(String.join(".", enchant, "amount"), amount);
-		config.set(String.join(".", enchant, "amount"), amount);
+	public void setAmount(Class<? extends EnchantmentBase> enchant, double amount) {
+		config.addDefault(String.join(".", enchant.getSimpleName().toLowerCase(), "amount"), amount);
+		config.set(String.join(".", enchant.getSimpleName().toLowerCase(), "amount"), amount);
 	}
 	
-	public String getDisplayName(String enchant) {
-		return config.getString(String.join(".", enchant, "display-name"));
+	public void setOther(Class<? extends EnchantmentBase> enchant, String key, Object object) {
+		config.addDefault(String.join(".", enchant.getSimpleName().toLowerCase(), key), object);
+		config.set(String.join(".", enchant.getSimpleName().toLowerCase(), key), object);
 	}
 	
-	public boolean getSpecial(String enchant) {
-		return config.getBoolean(String.join(".", enchant, "special"));
+	public String getDisplayName(Class<? extends EnchantmentBase> enchant) {
+		return config.getString(String.join(".", enchant.getSimpleName().toLowerCase(), "display-name"));
 	}
 	
-	public double getChance(String enchant) {
-		return config.getDouble(String.join(".", enchant, "chance"));
+	public boolean getSpecial(Class<? extends EnchantmentBase> enchant) {
+		return config.getBoolean(String.join(".", enchant.getSimpleName().toLowerCase(), "special"));
 	}
 	
-	public int getAmount(String enchant) {
-		return config.getInt(String.join(".", enchant, "amount"));
+	public double getChance(Class<? extends EnchantmentBase> enchant) {
+		return config.getDouble(String.join(".", enchant.getSimpleName().toLowerCase(), "chance"));
+	}
+	
+	public double getAmount(Class<? extends EnchantmentBase> enchant) {
+		return config.getDouble(String.join(".", enchant.getSimpleName().toLowerCase(), "amount"));
+	}
+	
+	public Object getObject(Class<? extends EnchantmentBase> enchant, String key) {
+		return config.get(String.join(".", enchant.getSimpleName().toLowerCase(), key));
 	}
 	
 	public void save() {

@@ -4,12 +4,13 @@
 
 plugins {
     id 'java'
-    id 'maven-publish'
 	id 'eclipse'
+	id 'idea'
 }
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven {
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
@@ -19,7 +20,7 @@ repositories {
     }
 
     maven {
-        url = 'https://jitpack.io'
+        url = 'https://nexus.illyria.io/repository/maven-public/'
     }
 
     maven {
@@ -32,7 +33,7 @@ dependencies {
     implementation 'net.milkbowl.vault:VaultAPI:1.7'
     implementation project(':AlchemicLibrary')
     implementation project(':AlchemicLibrary-api')
-    implementation 'com.github.prosavage:savagefactions:1.14'
+    implementation 'com.massivecraft:SavageFactions:1.6.9.5-U0.2.1-RC-1.6.2-RC-2.5-RC-9'
 }
 
 group = 'me.alchemi'

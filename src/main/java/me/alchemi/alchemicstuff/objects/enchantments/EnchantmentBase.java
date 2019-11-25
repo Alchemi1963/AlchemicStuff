@@ -9,6 +9,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -28,14 +30,14 @@ import me.alchemi.alchemicstuff.objects.RomanNumber;
 
 public abstract class EnchantmentBase extends Enchantment implements Listener{
 
-	protected final String key;
+	protected final Class<? extends EnchantmentBase> key;
 	protected String displayName;
 	protected boolean special;
 	protected double chance;
-	protected int amount;
+	protected double amount;
 	
-	public EnchantmentBase(String key) {
-		super(new NamespacedKey(Stuff.getInstance(), key));
+	public EnchantmentBase(Class<? extends EnchantmentBase> key) {
+		super(new NamespacedKey(Stuff.getInstance(), key.getSimpleName().toLowerCase()));
 		
 		this.key = key;
 		
@@ -73,7 +75,7 @@ public abstract class EnchantmentBase extends Enchantment implements Listener{
 
 	@Override
 	public String getName() {
-		return key;
+		return key.getSimpleName().toLowerCase();
 	}
 
 	@Override
@@ -98,8 +100,50 @@ public abstract class EnchantmentBase extends Enchantment implements Listener{
 		return new Random().nextInt(100) <= chance;
 	}
 	
-	protected boolean hasEnchanment(ItemStack stack) {
+	protected boolean hasEnchantment(ItemStack stack) {
 		return stack.containsEnchantment(this);
+	}
+	
+	protected boolean hasEnchantment(LivingEntity entity, EquipmentSlot slot) {
+		switch (slot) {
+		case CHEST:
+			return hasEnchantment(entity.getEquipment().getChestplate());
+		case FEET:
+			return hasEnchantment(entity.getEquipment().getBoots());
+		case HAND:
+			return hasEnchantment(entity.getEquipment().getItemInMainHand());
+		case HEAD:
+			return hasEnchantment(entity.getEquipment().getHelmet());
+		case LEGS:
+			return hasEnchantment(entity.getEquipment().getLeggings());
+		case OFF_HAND:
+			return hasEnchantment(entity.getEquipment().getItemInOffHand());
+		default:
+			return false;
+		}
+	}
+	
+	protected int getLevel(ItemStack stack) {
+		return stack.getEnchantmentLevel(this);
+	}
+	
+	protected int getLevel(LivingEntity entity, EquipmentSlot slot) {
+		switch (slot) {
+		case CHEST:
+			return getLevel(entity.getEquipment().getChestplate());
+		case FEET:
+			return getLevel(entity.getEquipment().getBoots());
+		case HAND:
+			return getLevel(entity.getEquipment().getItemInMainHand());
+		case HEAD:
+			return getLevel(entity.getEquipment().getHelmet());
+		case LEGS:
+			return getLevel(entity.getEquipment().getLeggings());
+		case OFF_HAND:
+			return getLevel(entity.getEquipment().getItemInOffHand());
+		default:
+			return 0;
+		}
 	}
 	
 	protected final ItemStack setLore(ItemStack stack) {
@@ -110,7 +154,7 @@ public abstract class EnchantmentBase extends Enchantment implements Listener{
 		if (meta.hasLore()) {
 			lore = meta.getLore();	
 			
-			if (hasEnchanment(stack)) {
+			if (hasEnchantment(stack)) {
 				for (String line : lore) {
 					if (line.contains(Messenger.formatString(displayName))) {
 						int index = lore.indexOf(line);
@@ -148,9 +192,10 @@ public abstract class EnchantmentBase extends Enchantment implements Listener{
 	protected ItemStack apply(ItemStack stack) { return apply(stack, 1); }
 	
 	protected ItemStack apply(ItemStack stack, int level) throws IllegalArgumentException {
-		if (hasEnchanment(stack) && stack.getEnchantmentLevel(this) + level > getMaxLevel()) throw new IllegalArgumentException("Stack will overgo maximum level.");
+		if (hasEnchantment(stack) && stack.getEnchantmentLevel(this) + level > getMaxLevel()) 
+			throw new IllegalArgumentException("Stack will overgo maximum level.");
 		
-		if (hasEnchanment(stack)) stack.addEnchantment(this, stack.getEnchantmentLevel(this) + level);
+		if (hasEnchantment(stack)) stack.addEnchantment(this, stack.getEnchantmentLevel(this) + level);
 		else stack.addEnchantment(this, level);
 		
 		
@@ -164,9 +209,9 @@ public abstract class EnchantmentBase extends Enchantment implements Listener{
 		return item;
 	}
 	
-	public abstract void onUse(EntityDamageByEntityEvent e);
+	public void onUse(EntityDamageByEntityEvent e) {};
 	
-	public abstract void onShoot(EntityShootBowEvent e);
+	public void onShoot(EntityShootBowEvent e) {};
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler

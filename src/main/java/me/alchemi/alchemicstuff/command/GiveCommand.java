@@ -11,7 +11,7 @@ import me.alchemi.alchemicstuff.objects.EnchantmentManager;
 public class GiveCommand extends CommandBase {
 
 	public GiveCommand() {
-		super(Stuff.getInstance(), "git gud");
+		super(Stuff.getInstance(), "git gud", "/giveenchant <enchant>");
 	}
 	
 	@Override
