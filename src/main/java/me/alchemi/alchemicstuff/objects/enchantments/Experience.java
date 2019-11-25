@@ -30,7 +30,8 @@ public class Experience extends EnchantmentBase {
 	
 	@EventHandler
 	public void onUse(EntityDeathEvent e) {
-		if (hasEnchantment(e.getEntity().getKiller(), EquipmentSlot.HAND)
+		if (e.getEntity().getKiller() != null &&
+				hasEnchantment(e.getEntity().getKiller(), EquipmentSlot.HAND)
 				&& allowChance()) {
 			e.setDroppedExp((int) (e.getDroppedExp() * amount * getLevel(e.getEntity().getKiller(), EquipmentSlot.HAND)));
 		}

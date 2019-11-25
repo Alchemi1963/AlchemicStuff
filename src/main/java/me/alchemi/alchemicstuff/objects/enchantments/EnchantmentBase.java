@@ -100,6 +100,10 @@ public abstract class EnchantmentBase extends Enchantment implements Listener{
 		return new Random().nextInt(100) <= chance;
 	}
 	
+	protected final boolean allowChance(int modifier) {
+		return new Random().nextInt(100) <= (chance * modifier);
+	}
+	
 	protected boolean hasEnchantment(ItemStack stack) {
 		return stack.containsEnchantment(this);
 	}
