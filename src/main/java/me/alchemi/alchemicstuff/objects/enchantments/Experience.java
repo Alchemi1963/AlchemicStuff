@@ -12,7 +12,7 @@ import me.alchemi.alchemicstuff.objects.EnchantmentManager;
 
 public class Experience extends EnchantmentBase {
 
-	public static final String DEFAULT_DISPLAYNAME = "&2Experience";
+	public static final String DEFAULT_DISPLAYNAME = "&aExperience";
 	public static final boolean DEFAULT_SPECIAL = false;
 	public static final double DEFAULT_AMOUNT = 1.5D;
 	public static final double DEFAULT_CHANCE = 50.0D;

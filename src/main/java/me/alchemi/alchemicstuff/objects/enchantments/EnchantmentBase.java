@@ -105,10 +105,12 @@ public abstract class EnchantmentBase extends Enchantment implements Listener{
 	}
 	
 	protected boolean hasEnchantment(ItemStack stack) {
+		if (stack == null) return false;
 		return stack.containsEnchantment(this);
 	}
 	
 	protected boolean hasEnchantment(LivingEntity entity, EquipmentSlot slot) {
+		if (entity.getEquipment() == null) return false;
 		switch (slot) {
 		case CHEST:
 			return hasEnchantment(entity.getEquipment().getChestplate());
@@ -128,10 +130,12 @@ public abstract class EnchantmentBase extends Enchantment implements Listener{
 	}
 	
 	protected int getLevel(ItemStack stack) {
+		if (stack == null) return 0;
 		return stack.getEnchantmentLevel(this);
 	}
 	
 	protected int getLevel(LivingEntity entity, EquipmentSlot slot) {
+		if (entity.getEquipment() == null) return 0;
 		switch (slot) {
 		case CHEST:
 			return getLevel(entity.getEquipment().getChestplate());

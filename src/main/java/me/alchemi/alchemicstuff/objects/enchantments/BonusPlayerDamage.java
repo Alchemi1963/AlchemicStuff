@@ -13,20 +13,20 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import me.alchemi.alchemicstuff.objects.EnchantmentManager;
 
-public class Bonus_Player_Damage extends EnchantmentBase{
+public class BonusPlayerDamage extends EnchantmentBase{
 
 	public static final String DEFAULT_DISPLAYNAME = "&8Hanged Man's Venom";
 	public static final boolean DEFAULT_SPECIAL = false;
 	public static final double DEFAULT_AMOUNT = 1.5D;
 		
-	public Bonus_Player_Damage() {
-		super(Bonus_Player_Damage.class);
+	public BonusPlayerDamage() {
+		super(BonusPlayerDamage.class);
 	}
 	
 	public static void setDefaults(EnchantmentManager manager) {
-		manager.setDisplayName(Bonus_Player_Damage.class, DEFAULT_DISPLAYNAME);
-		manager.setSpecial(Bonus_Player_Damage.class, DEFAULT_SPECIAL);
-		manager.setAmount(Bonus_Player_Damage.class, DEFAULT_AMOUNT);
+		manager.setDisplayName(BonusPlayerDamage.class, DEFAULT_DISPLAYNAME);
+		manager.setSpecial(BonusPlayerDamage.class, DEFAULT_SPECIAL);
+		manager.setAmount(BonusPlayerDamage.class, DEFAULT_AMOUNT);
 	}
 
 	@EventHandler
